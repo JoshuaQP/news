@@ -5,6 +5,7 @@ from django.urls import reverse
 
 
 class HomePageTests(SimpleTestCase):
+
     def test_home_page_status_code(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
@@ -15,13 +16,14 @@ class HomePageTests(SimpleTestCase):
 
     def test_view_uses_correct_template(self):
         response = self.client.get(reverse("home"))
-        self.asserEqual(response.status_code, 200)
-        self.assertTemplatedUsed(response, "home.html")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "home.html")
 
     
     def test_view_extends_base_template(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "base.html")
         
 
 class SignUpPageTests(TestCase):
@@ -42,10 +44,10 @@ class SignUpPageTests(TestCase):
         self.assertTemplateUsed(response, "registration/signup.html")
 
 
-    def test_signup_form(self):
-        new_user = get_user_model().objects.create_user(
-            self.username, self.email
-        )
+    def test_signup_extends_base_template(self):
+        response = self.client.get(reverse("signup"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "base.html")
 
         self.assertEqual(get_user_model().objects.all().count(), 1)
         self.assertEqual(get_user_model().objects.all()[0].username, self.username)

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block title  %} Article List  {% endblock title %}
+
+
+{% block content  %}
+
+  <div class="form-container">
+      <h1>Article</h1>
+
+      <ul>
+          {% for article in article_list %}
+
+          <li>
+              {{ article.title }}
+          </li>
+
+          {% endfor %}
+          
+      </ul>
+
+  </div>
+
+  {% endblock content  %}
+
+ 
